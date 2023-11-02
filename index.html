@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<script>
+    var c,ctx,x=0,y=0;
+    var speedX=7,speedY=5;
+    PageLoad = function() {
+        c = document.getElementById("myCanvas");
+        ctx = c.getContext("2d");
+    }
+    setInterval(function() {
+        x+=speedX;
+        y+=speedY;
+        if ((x < 0) || (x > c.width-80)) {
+            speedX = -speedX;
+            speedX+=Math.floor(Math.random()*7)+1;
+            if ((Math.abs(speedX) > 15) || (Math.abs(speedX) < 3)) {
+                speedX = 7;
+                speedY = 5;
+                ctx.fillStyle = "green";   
+            }
+        }       
+        if ((y < 0) || (y > c.height-80)) {
+            speedY = -speedY;
+            speedY+=Math.floor(Math.random()*7)+1;
+            if ((Math.abs(speedY) > 15) || (Math.abs(speedY) < 3)) {
+                speedY = 5;
+                speedX = 7;
+                ctx.fillStyle = "red"; 
+            }    
+        }
+        if (x < 0) {
+            x = 0;
+            ctx.fillStyle = "yellow"; 
+        }
+        if (y < 0) {
+            y = 0;
+            ctx.fillStyle = "cyan";
+        }
+        if (x > c.width-80) {
+            x = c.width-80;
+        }
+        if (y > c.height-80) {
+            y = c.height-80;
+        }
+        ctx.clearRect(x-40, y-40,x+120,y+120);
+        ctx.beginPath();    
+        ctx.arc(40+x, 40+y, 40, 0, 2 * Math.PI);
+        ctx.strokeStyle = "black";
+        ctx.fill();
+        ctx.stroke();
+        document.getElementById("info").innerText = "speedX: " + speedX + " speedY: " + speedY;
+    },1);
+
+    document.addEventListener('keydown', (event) => {
+        var name = event.key;
+        var code = event.code;
+        var speed = 25;
+        if (event.key == "ArrowUp") {
+            y -= speed;
+        }    
+        if (event.key == "ArrowDown") {
+            y += speed;
+        }
+        if (event.key == "ArrowLeft") {
+            x -= speed;
+        }
+        if (event.key == "ArrowRight") {
+            x += speed;
+        }
+        if (x < 0) {
+            x = 0;
+        }
+        if (y < 0) {
+            y = 0;
+        }
+        if (x > c.width-80) {
+            x = c.width-80;
+        }
+        if (y > c.height-80) {
+            y = c.height-80;
+        }
+    }, false);
+</script>
+<style>
+@media only screen and (max-width: 768px) {
+
+    body {
+            background-color: blue;
+        }
+    }
+</style>
+
+<body onload="PageLoad()">
+<canvas id="myCanvas" width="370" height="668" style="border:1px solid #000000;">
+Your browser does not support the HTML canvas tag.
+</canvas>
+<div id="info"></div>
+</body>
+</html>
+
